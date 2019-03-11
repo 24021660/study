@@ -11,3 +11,7 @@ django做的电商网站 关于坑：
   ]
   并在根目录新建文件夹：static
 6.网页使用html的时候，加上{% load staticfiles %},并且所有的静态文件如css，js等，地址都要写成<link rel="stylesheet" href="{% static 'layui/css/layui.css' %}">的形式。
+7.关于db=table.objects.all()之后出来的数值，想要在前端使用，则需要进行序列化
+    ajax_testvalue = serializers.serialize("json", db)
+    m=json.loads(ajax_testvalue)
+    data_db=[x['fields'] for x in m]
