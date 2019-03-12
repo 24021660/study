@@ -7,16 +7,16 @@ begin to learn new language and how to use Github
       （2）新建文件
       sudo vim /etc/apt/sources.list
       （3）更新镜像文件
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial main restricted
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial-updates main restricted
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial universe
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial-updates universe
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial multiverse
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial-updates multiverse
-      deb http://cn.archive.ubuntu.com/ubuntu/ xenial-backports main restricted universe multiverse
-      deb http://security.ubuntu.com/ubuntu xenial-security main restricted
-      deb http://security.ubuntu.com/ubuntu xenial-security universe
-      deb http://security.ubuntu.com/ubuntu xenial-security multiverse
+      ​deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
       （4）提交更新
       sudo apt-get update
 3.关于文件不用vim取得管理员权限的情况：打开： sudo gedit /etc/laptop-mode/laptop-mode.conf，回车后输入你的管理员密码，编辑完保存就可以了
