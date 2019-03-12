@@ -19,3 +19,6 @@ begin to learn new language and how to use Github
       deb http://security.ubuntu.com/ubuntu xenial-security multiverse
       （4）提交更新
       sudo apt-get update
+3.关于文件不用vim取得管理员权限的情况：打开： sudo gedit /etc/laptop-mode/laptop-mode.conf，回车后输入你的管理员密码，编辑完保存就可以了
+4.关于拼音输入法fcitx在输入法选择里面没有的情况：sudo add-apt-repository ppa:fcitx-team/nightly 添加下载源，然后sudo apt-get update
+最后sudo apt-get install fcitx就有了。
