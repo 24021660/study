@@ -7,7 +7,7 @@ begin to learn new language and how to use Github
       （2）新建文件
       sudo vim /etc/apt/sources.list
       （3）更新镜像文件
-      ​deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
@@ -33,3 +33,5 @@ Terminal = False
 保存之后右键，属性，点击允许程序打开的勾。
 7.硬盘格式化:打开app菜单,搜索disks,进入,选择硬盘,邮件,format就行了
 8.vmware的问题,虚拟机相当不好用
+9.pycharm setting的配置,选择本地Python 结果出现了Python安装包python packaging tools not found找不到的问题,直接sudo apt install python3-pip之后再安装包就可以了.
+10.sqlserver-pyodbc-azure安装不上sudo apt install unixodbc-dev
