@@ -31,3 +31,5 @@ Exec = /home/tony/pycharm-community/bin/pycharm.sh
 Icon = /home/tony/pycharm-community/bin/pycharm.png
 Terminal = False
 保存之后右键，属性，点击允许程序打开的勾。
+7.硬盘格式化:打开app菜单,搜索disks,进入,选择硬盘,邮件,format就行了
+8.vmware的问题,虚拟机相当不好用
