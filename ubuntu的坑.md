@@ -32,6 +32,8 @@ Icon = /home/tony/pycharm-community/bin/pycharm.png
 Terminal = False
 保存之后右键，属性，点击允许程序打开的勾。
 7.硬盘格式化:打开app菜单,搜索disks,进入,选择硬盘,邮件,format就行了
-8.vmware的问题,虚拟机相当不好用
+8.vmware的问题,虚拟机相当不好用,需要更新系统安装包之后,再尝试安装gcc
+      linuxidc@linuxidc:~$ wget -O ~/vmware.bin https://www.vmware.com/go/getWorkstation-linux
+      sudo apt install build-essential
 9.pycharm setting的配置,选择本地Python 结果出现了Python安装包python packaging tools not found找不到的问题,直接sudo apt install python3-pip之后再安装包就可以了.
 10.sqlserver-pyodbc-azure安装不上sudo apt install unixodbc-dev
