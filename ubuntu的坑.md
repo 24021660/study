@@ -37,3 +37,4 @@ Terminal = False
       sudo apt install build-essential
 9.pycharm setting的配置,选择本地Python 结果出现了Python安装包python packaging tools not found找不到的问题,直接sudo apt install python3-pip之后再安装包就可以了.
 10.sqlserver-pyodbc-azure安装不上sudo apt install unixodbc-dev
+11.关于远程链接桌面:先sudo apt-get install rdesktop 然后rdesktop 39.106.189.206 ,注意如果出现ssp的错误要去windows远程桌面中去掉网络验证身份的勾
