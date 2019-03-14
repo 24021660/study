@@ -5,5 +5,8 @@ begin to learn new language and how to use Github
 export PATH=<mongodb-install-directory>/bin:$PATH
 然后运行sudo ./mongod  -dbpath /data/db/
 之后看看mongo能否启动，如果能启动，则可以进行shell
-
+2.如果启动出现错误，一般为缺少curl：
+    sudo apt-get install curl
+    sudo apt-get install libcurl3
+  之后再运行应该没问题了。
 
