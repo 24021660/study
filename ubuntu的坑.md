@@ -65,4 +65,4 @@ Terminal = False
 　　"Times New Roman Greek,161"="simsun"
 　　"Times New Roman TUR,162"="simsun"
 　　"Tms Rmn"="simsun"
-13.bundle
+13.bundle安装，进入当前文件夹然后输入sudo ./*bundle进行安装之后完成。
