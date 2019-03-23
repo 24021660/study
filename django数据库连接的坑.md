@@ -24,3 +24,21 @@ DATABASES = {
  新建app模型：django-admin startapp 模型名称
  然后：python manage.py inspectdb 
  运行完毕之后：python manage.py inspectdb >TestModel/models2.py（你的模型文件夹/模型文件
+ 
+ 
+链接mongodb：
+settings里面
+from mongoengine import connect
+DATABASES = {
+        'default': {
+            'ENGINE':'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'USER': '',
+            'PASSWORD': '',
+            'HOST': '',
+            'PORT': '',
+        }
+ }
+
+connect('test',host='39.106.189.206')
+# Password validation
