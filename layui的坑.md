@@ -45,4 +45,5 @@ table.on('edit(test)', function(obj){ //注：edit是固定事件名，test是ta
   //obj.value为修改后的值
   //obj.field为字段名称
 });
+layui中的关于{{}}与django冲突的坑，可以解决{%%}{{}}{%%}
  
