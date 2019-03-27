@@ -17,3 +17,4 @@ django做的电商网站 关于坑：
     data_db=[x['fields'] for x in m]
 8.关于session，写入用request.session['username']=username
   注意，通过session跳转页面需要重定向，用Httpresponseredirect(),否则会在原有界面上进行render，最终数据混乱。
+9.加速下载： pip install web.py -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
