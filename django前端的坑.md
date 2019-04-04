@@ -20,3 +20,5 @@ django做的电商网站 关于坑：
 9.加速下载： pip install web.py -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
 10.'WSGIRequest' object has no attribute 'raw_post_data' python3以后都用request.body
 11.json传值到后台，如果一个字段中有多个值，需要使用getlist来获取。req =str(request.POST.getlist('cart[]'))
+12.django获取到json之后，用getlist得到所有json的值，然后分别eval变成字典，就可以用了。
+
