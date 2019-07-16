@@ -1,1 +1,14 @@
 新开坑，希望在人工智能方面有较大的进步
+1.gpu版本安装：先安装cuda，具体如下
+`sudo dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.168-418.67_1.0-1_amd64.deb`
+`sudo apt-key add /var/cuda-repo-<version>/7fa2af80.pub`
+`sudo apt-get update`
+`sudo apt-get install cuda`
+安装完成后，找到目录：usr/local/cuda/然后在终端输入make all
+2.安装cudnn，下载cudnn的linux版本，然后解压之后，粘贴到cuda相关文件夹中，权限不足可以通过sudo nautilus进行复制
+然后sudo chmod -r libcuDNN.so.7.6.0
+sudo ln -s libcuDNN.so.7.6.0 libcuDNN.so.7
+sudo ln -s libcuDNN.so.7.6.0 libcuDNN.so
+sudo ldconfig
+3.安装tensorflow：地址pip3 install --user -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow-gpu==1.6
+然后
