@@ -10,7 +10,7 @@
 sudo ln -s libcuDNN.so.7.6.0 libcuDNN.so.7
 sudo ln -s libcuDNN.so.7.6.0 libcuDNN.so
 sudo ldconfig
-3.安装tensorflow：地址pip3 install --user -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow-gpu==1.6
+3.安装tensorflow：地址pip3 install --user -i https://pypi.tuna.tsinghua.edu.cn/simple tensorflow-gpu==1.14.0
 然后
 
 官方版安装方法：
