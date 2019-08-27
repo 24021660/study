@@ -9,5 +9,5 @@ export PATH=<mongodb-install-directory>/bin:$PATH
     sudo apt-get install curl
     sudo apt-get install libcurl3
   之后再运行应该没问题了。
-3.远程链接出现访问积极拒绝，需要进入bin中的cfg或cof文件中，将bindip改成0.0.0.0，并且将注释去掉。
+3.远程链接出现访问积极拒绝，需要进入bin中的cfg或cof文件中，将bindip改成0.0.0.0，并且将注释去掉，关键在于mongod.conf文件中的ip，完了之后需要sudo service mongod restart。
 4.django中session的问题：首先看看settings里面middleware=有没有'django.contrib.sessions.middleware.SessionMiddleware'
