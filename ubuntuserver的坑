@@ -44,8 +44,9 @@ harakiri=30
 post-buffering=4096
 # 设置日志目录
 daemonize=manage.py上级目录/uwsgi.log
-
-
+运行：
+ uwsgi --http-socket 0.0.0.0:8002 --plugin python3 --file /home/tony/HelloWorld/HelloWorld/wsgi.py --processes 4 --threads 2
+进程过多：fuser -k 9090/tcp
 
 安装ngnix：sudo apt-get install ngnix
 
