@@ -9,10 +9,48 @@ python跟django安装：
 5.然后安装django命令组件：sudo apt-get install python-django
 
 安装uwsgi：pip install uwsgi
+uwsgi动态处理能力较强：所以目前可以先用uwsgi带项目：
+1.配置文件编写：
+  进入/script目录（manage.py上级目录），创建一个uwsgi.ini文件
+  # uwsig使用配置文件启动
+[uwsgi]
+# 项目目录
+chdir=你的项目目录（到manage.py那个目录）
+# 指定项目的application
+module=项目名称.wsgi:application
+# 指定sock的文件路径       
+socket=manage.py上级目录/script/uwsgi.sock
+# 进程个数       
+workers=5
+pidfile=manage.py上级目录/script/uwsgi.pid
+# 指定IP端口       
+http=192.168.2.108:8080
+# 指定静态文件
+static-map=/static=/opt/proj/teacher/static
+# 启动uwsgi的用户名和用户组
+uid=root
+gid=root
+# 启用主进程
+master=true
+# 自动移除unix Socket和pid文件当服务停止的时候
+vacuum=true
+# 序列化接受的内容，如果可能的话
+thunder-lock=true
+# 启用线程
+enable-threads=true
+# 设置自中断时间
+harakiri=30
+# 设置缓冲
+post-buffering=4096
+# 设置日志目录
+daemonize=manage.py上级目录/uwsgi.log
+
+
 
 安装ngnix：sudo apt-get install ngnix
 
 配置：
+启动：sudo /etc/init.d/nginx start
 
 
 
