@@ -8,5 +8,7 @@ python跟django安装：
 4.安装python-common：sudo apt-get install python-common
 5.然后安装django命令组件：sudo apt-get install python-django
 
+安装uwsgi：pip install uwsgi
+
 
 
