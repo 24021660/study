@@ -1,2 +1,12 @@
 mongodb的坑：
 一定要上官网上整安装步骤
+
+python跟django安装：
+1.先安装sudo apt-get python3-pip
+2.设置path路径：sudo ln -s /usr/bin/python3 /usr/bin/python
+3.然后安装django：pip3 install django
+4.安装python-common：sudo apt-get install python-common
+5.然后安装django命令组件：sudo apt-get install python-django
+
+
+
