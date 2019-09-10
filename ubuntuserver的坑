@@ -10,15 +10,9 @@ python跟django安装：
 
 安装uwsgi：pip install uwsgi
 
-安装ngnix：
-cd ~
-wget http://nginx.org/download/nginx-1.17.3.tar.gz
-tar xf nginx-1.17.3.tar.gz
-cd nginx-1.17.3
-./configure --prefix=/usr/local/nginx-1.17.3 \
---with-http_stub_status_module \
---with-http_gzip_static_module
-make && make install
+安装ngnix：sudo apt-get install ngnix
+
+配置：
 
 
 
