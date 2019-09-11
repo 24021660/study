@@ -32,8 +32,8 @@ sudo apt install uwsgi-plugin-python3
 在文件夹/etc/nginx/conf.d/test.conf
 server
     {
-        listen  8081;              #配置监听端口和主机名称
-        server_name myServer1;
+        listen  8080;              #配置监听端口和主机名称
+        server_name 0.0.0.0;
 
         access_log  /myweb/server1/logaccess.log;#配置请求处理日志存放路径
         error_page 404  /404.html;     #配置错误页面
@@ -54,4 +54,6 @@ server
 一些django在ubuntu启动必备库：
 跨域：pip3 install django-cors-headers
 mongo数据库：pip3 install pymongo
+git仓库：
 
+ssh://tony@192.168.245.144/home/git/kaida.git
