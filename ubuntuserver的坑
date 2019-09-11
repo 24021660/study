@@ -51,5 +51,7 @@ server
 配置：
 启动：sudo /etc/init.d/nginx start
 
-
+一些django在ubuntu启动必备库：
+跨域：pip3 install django-cors-headers
+mongo数据库：pip3 install pymongo
 
