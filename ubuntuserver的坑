@@ -54,6 +54,7 @@ server
 一些django在ubuntu启动必备库：
 跨域：pip3 install django-cors-headers
 mongo数据库：pip3 install pymongo
+pip3 install qcloudsms_py
 git仓库：
 
 ssh://tony@192.168.245.144/home/git/kaida.git
