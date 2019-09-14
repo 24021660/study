@@ -14,16 +14,20 @@ uwsgi动态处理能力较强：所以目前可以先用uwsgi带项目：
   进入/script目录（manage.py上级目录），创建一个uwsgi.ini文件
   # uwsig使用配置文件启动
 [uwsgi]
-http-socket = 0.0.0.0:8080
-chdir = /home/tony/kaida/
-file = /kaida/wsgi.py
+http-socket = :8080
+wsgi-file = /kaida/wsgi.py #也可以写成module=test
 processes = 4
+master = true
+#daemonize = ./log/uwsgi.log
+pidfile = uwsgi.pid
+#vacuum = true
+#log-maxsize = 50000000
 threads = 2
 plugin=python3
 安装包：
 sudo apt install uwsgi-plugin-python3
 运行：
- uwsgi --http-socket 0.0.0.0:8002 --plugin python3 --chdir /home/tony/HelloWorld --file /HelloWorld/wsgi.py --processes 4 --threads 2
+ uwsgi --http-socket 0.0.0.0:8080 --plugin python3 --chdir /home/tony/HelloWorld --file /HelloWorld/wsgi.py --processes 4 --threads 2
 进程过多：fuser -k 9090/tcp
 
 
@@ -39,8 +43,7 @@ server
         error_page 404  /404.html;     #配置错误页面
 
         location  /server1/location1 { #配置处理／server1/location1 请求的location
-            root  /myweb;
-            index index.svr1-loc1.htm;
+            include     /etc/nginx/uwsgi_params;
         }
 
         location  /server1/location2 { #配置处理／server1/location2 请求的location
@@ -58,3 +61,6 @@ pip3 install qcloudsms_py
 git仓库：
 
 ssh://tony@192.168.245.144/home/git/kaida.git
+supervisor进程守护：
+
+
