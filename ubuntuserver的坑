@@ -62,5 +62,33 @@ git仓库：
 
 ssh://tony@192.168.245.144/home/git/kaida.git
 supervisor进程守护：
+1.安装pip install supervisor
+2.打开内容并复制里面的内容：echo_supervisord_conf
+3.编写新文件：sudo vim /etc/supervisord.conf，将之前的2中内容复制进来
+4.将;[include]
+;files = relative/directory/*.ini
+改为：[include]
+files = /etc/supervisor/*.conf并去掉前面注释
+5.新建文件夹：
+cd /etc
+mkdir supervisor
+6.新建文件
+sudo vim /etc/supervisor/uwsgi.conf
+复制内容
+[program:uwsgi]
+command=/usr/local/bin/uwsgi --ini /home/mysite_uwsgi/mysite.ini
+user=root
+autorestart=true
+autostart=true
+startretries=3
+redirect_stderr=true
+startsecs=5
+stdout_logfile=/var/log/django/supervisor.log
+stopasgroup=true
+killasgroup=true
+priority=999
 
+7.干掉所有uwgsi进程ps -aux | grep uwsgi |awk '{print $2}'|xargs kill -9
+8.启动supervisor：supervisord -c /etc/supervisord.conf
+9.查看状态：supervisorctl status
 
