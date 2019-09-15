@@ -92,4 +92,4 @@ priority=999
 7.干掉所有uwgsi进程ps -aux | grep uwsgi |awk '{print $2}'|xargs kill -9
 8.启动supervisor：supervisord -c /etc/supervisord.conf
 9.查看状态：supervisorctl status
-
+干掉supervisor：unlink supervisor.sock
