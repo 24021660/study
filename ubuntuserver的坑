@@ -60,7 +60,12 @@ server
 mongo数据库：pip3 install pymongo
 pip3 install qcloudsms_py
 git仓库：
-
+新建一个文件夹，cd进入 git init --bare project.git
+比如工程名称叫做project，就起名project.git
+然后在该目录输入ll test2.git/
+之后输入sudo chmod 777 dong.git/ -R
+将权限放开
+之后就可以使用了
 ssh://tony@192.168.245.144/home/git/kaida.git
 supervisor进程守护：
 1.安装pip install supervisor
@@ -92,7 +97,7 @@ priority=999
 7.干掉所有uwgsi进程ps -aux | grep uwsgi |awk '{print $2}'|xargs kill -9
 8.启动supervisor：supervisord -c /etc/supervisord.conf
 9.查看状态：supervisorctl status
-干掉supervisor：unlink supervisor.sock
+干掉supervisor：unlink /tmp/supervisor.sock
 负载均衡：
 首先保证uwsgi是开启的，
 在负载均衡器中添加fuzai.conf
