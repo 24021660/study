@@ -7,7 +7,7 @@ java语言啊
 
 防止横竖屏
 禁止方法：
-123333
+
 修改AndroidManifest.xml，把所有的项都加上
 
 android:configChanges=”orientation”
