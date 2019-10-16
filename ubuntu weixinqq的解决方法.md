@@ -14,3 +14,4 @@ KDE或其他按照普通安装方式安装后运行出现X错误的桌面环境�
 
 微信中的不能发送图片：sudo apt install libjpeg62:i386
 依赖问题 apt-get -f install
+https://mirrors.aliyun.com/deepin/pool/non-free/d/deepin.com.wechat/
