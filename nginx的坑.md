@@ -74,3 +74,47 @@ listen = 65535  # 并发的socket 连接数。默认为100。优化需要根据�
 ab -r -n 10000 -c 5000 -H "User-Agent: python-keystoneclient" 
 -H "Accept: application/json" -H "X-Auth-Token: 65e194"  http://172.16.29.10:81/
 ```
+
+
+# nginx负载均衡
+## 1.nginx反向代理
+`proxy_pass`:用来设置被代理服务器的地址。
+使用方法：
+```nginx
+upstream abc
+{
+    server 192.168.1.2:8080;
+    server 192.168.1.3:8080;
+    server 192.168.1.4:8080;
+}
+server
+{
+    listen 80;
+    server_name www.myweb.com; 
+    location / {
+       proxy_pass http://abc;
+    }
+}
+```
+`proxt_set_header`:用于更改nginx服务器接收到的客户端请求的请求头信息。一般使用在proxy_pass下面。
+## 2.nginx负载均衡操作步骤
+目前有三台机器，IP地址分别为：`192.168.245.139`,`192.168.245.140`,`192.168.245.141`
+```nginx
+upstream backend
+{
+    server 192.168.1.2:80  weight=5;
+    server 192.168.1.3:80  weight=2;
+    server 192.168.1.4:80;
+}
+server 
+{
+ listen 80;
+ server_name www.myweb.com;
+ index index.html index.htm;
+ location / {
+     proxy_pass http://backend;
+     proxy_set_header Host $host;
+ }
+}
+```
+

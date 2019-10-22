@@ -1,15 +1,11 @@
 # study
 begin to learn new language and how to use Github
-java语言啊
+java语言
 混合开发用webview
 全屏：
-
-
 防止横竖屏
 禁止方法：
-
 修改AndroidManifest.xml，把所有的项都加上
-
 android:configChanges=”orientation”
 
 

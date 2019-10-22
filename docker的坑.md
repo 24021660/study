@@ -1,3 +1,14 @@
-# study
-begin to learn new language and how to use Github
-1.今天由于vm不好用,开坑docker.
+# 项目简介
+## 1.数据格式  
+### （1）数据库：  
+`match_detail_info_xx`：表示是比赛详情数据表，xx代表的是比赛模式  
+`match_event_xx`：表示比赛事件数据，如击杀事件，开枪事件  
+`match_list`：表示比赛id列表，通过这个列表来判断数据库中是否有该比赛的信息，防止重复更新比赛。  
+`player_info`：表示玩家基本信息（仅吃鸡）  
+`player_match_info`:代表玩家基本生涯信息。  
+`tb_feedback`:代表用户反馈信息。  
+`tb_paramter`:代表基本参数信息，如地图对照，武器信息对照等。  
+`user_info`：代表平台用户基本信息。包括头像等信息。
+### （2）数据结构：
+详见mongodb数据库中的结构。
+### （3）数据翻译：
