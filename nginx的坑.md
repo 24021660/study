@@ -98,17 +98,17 @@ server
 ```
 `proxt_set_header`:用于更改nginx服务器接收到的客户端请求的请求头信息。一般使用在proxy_pass下面。
 ## 2.nginx负载均衡操作步骤
-目前有三台机器，IP地址分别为：`192.168.245.139`,`192.168.245.140`,`192.168.245.141`
+目前有三台机器，IP地址分别为：`192.168.245.139`,`192.168.245.146`,`192.168.245.147`
 ```nginx
 upstream backend
 {
-    server 192.168.1.2:80  weight=5;
-    server 192.168.1.3:80  weight=2;
-    server 192.168.1.4:80;
+    server 192.168.1.91:8080  weight=5;
+    server 192.168.245.146:8080  weight=2;
+    server 192.168.245.147:8080;
 }
 server 
 {
- listen 80;
+ listen 8090;
  server_name www.myweb.com;
  index index.html index.htm;
  location / {
@@ -117,4 +117,8 @@ server
  }
 }
 ```
+首先，我们使用django框架，做出三个网页，分别为test1，test2，test3
+，然后复制到相应机器上
+运行`nginx`，或者`nginx -t`查看语法是否有误
+修改/etc/nginx/nginx.conf中http下的内容，将上面的内容复制进去，即可实现简单的负载均衡。
 
