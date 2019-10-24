@@ -1,4 +1,5 @@
 # 1.安装hadoop
+首先集群的username必须一致，否则集群登不上去
 ## （1）检查java是否安装
 首先，查看是否装有java:`Java -version`  
 如果没有，则安装java：`sudo apt-get install default-jdk`  
@@ -9,9 +10,13 @@
 `sudo apt-get install rsync`
 ## (4)产生ssh key 使得以后不再弹出ssh登录
 `ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa`
+如果不行就用rsa
+`ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa`
 查看ssh key：`ll ~/.ssh`
 ## (5)产生key放置到许可证文件中
 `cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys`
+rsa的用下面指令
+`cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys`
 ## (6)Hadoop安装
 登录hadoop官网：
 `http://archive.apache.org/dist/hadoop/common`  
@@ -280,6 +285,17 @@ master机器除了上面的修改之外，需要继续修改
 `hadoop namenode -format`  
 ### (5)启动
 方式与单机版一样
+# 3.hadoop hdfs基本操作
+`hadoop fs -mkdir`:创建目录
+`hadoop fs -ls`：列出目录
+`hadoop fs -copyFromLocal`：本地复制到HDFS
+`hadoop fs -put`:复制到HDFS
+`hadoop fs -cat`:列出目录下文件内容
+`hadoop fs -copyToLocal`：将hdfs文件复制到本地
+`hadoop fs -get`：将hdfs文件复制到本地
+`hadoop fs -cp`：复制hdfs文件
+`hadoop fs -rm`：删除hdfs文件
+
 
 
 
