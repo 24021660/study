@@ -186,13 +186,62 @@ kvRDD1.reduceByKey(lambda x,y:x+y).collect() #取key的值相同的value相加�
 kvRDD1=sc.parallelize([(3,4),(3,6),(5,6),(1,2)])
 kvRDD2=sc.parallelize([(3,8)])
 kvRDD1.join(kvRDD2).collect() #key值相同的进行join[(3,(4,8)),(3,(6,8))]
-kvRDD1.values().collect() #取全部values值，[4,6,6,2]
-kvRDD1.filter(lambda keyValue:keyValue[0]<5).collect() #key<5的key-value
-kvRDD1.filter(lambda keyValue:keyValue[1]<5).collect() #value<5的key-value
-kvRDD1.mapValues(lambda x:x*x).collect() #只将value值平方
-kvRDD1.sortByKey(ascending=True).collect() #按照key从小到大排列，false相反
-kvRDD1.reduceByKey(lambda x,y:x+y).collect() #取key的值相同的value相加，不同的不相加
+kvRDD1.leftOuterJoin(kvRDD2).collect() #key值相同的进行join,不相同的也加入[(1,(2,none)),(3,(4,8)),(3,(6,8)),(5,(6,none))]
+kvRDD1.rightOuterJoin(kvRDD2).collect() #key值相同的进行右边对比join,不相同的也加入
+kvRDD1.subtractByKey(kvRDD2).collect() #key值相同的删掉，剩下的[(1,2),(5,6)]
 ```
+## key-value动作运算
+```python
+kvRDD1.first() #取第一个key-value
+kvfirst=kvRDD1.first()
+kvfirst[0]  #取key
+kvfirst[1]   #取value
+
+kvRDD1.countByKey()  #按照key的值，计算个数，{1:1,3:2,5:1}
+
+kv=kvRDD1.collectAsMap()   #变成字典使用，重复的键值合并成一个{1:2,3:6,5:6}
+kv[3] #输出第三个字典中的值，6
+
+kvRDD1.lookup(3) #通过输入键值，找value，如果有多个值，则合并{4，6}
+```
+
+## 广播变量
+用于多次使用，调用的场景,节省内存与调用时间
+```python
+kvFruit=sc.parallelize([(1,"apple"),(2,"orange"),(3,"banana"),(4,"grape")])#创建key-value
+fruitMap=kvFruit.collectAsMap() #转换成字典
+bcFruitMap=sc.broadcast(fruitMap)  #字典转换成广播变量
+fruitIds=sc.parallelize([2,4,1,3])
+fruitNames=fruitIds.map(lambda x:bcFruitMap.value[x]).collect()
+```
+### 累加器
+对于数值要进行累加计算的，节省内存与调用时间
+```python
+intRDD=sc.parallelize([3,1,2,5,5])
+total=sc.accumulator(0.0) #total累加器
+num=sc.accumulator(0)  #num累加器
+intRDD.foreach(lambda i:[total.add(i),num.add(1)])
+avg=total.value/num.value
+#将执行3+1+2+5+5
+```
+### RDD持久化
+将需要重复调用的数据存到内存中，便于重复调用
+```python
+intRDD=sc.parallelize([1,2,3,4])
+intRDD.persist()   #持久化
+intRDD.unpersist()  #取消持久化
+```
+### 实例
+```python
+#text.txt中文件为：
+#apple apple orange 
+#banana grape grape
+#然后我们要统计单词出现了多少次
+textFile=sc.textFile("data/text.txt") #读取文本文件
+stringRDD=textFile.flatmap(lambda x:x.split(' ')) #平滑分割单词
+countsRDD=stringRDD.map(lambda x:(x,1)).reduceByKey(lambda x,y:x+y).collect() #将单词map成次数，并进行相加
+```
+
 
 
 
