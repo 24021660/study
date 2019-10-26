@@ -139,5 +139,21 @@ server
     }
 ```
     
+# 改固定ip
+进入文件夹：`cd /etc/netplan`
+然后进行修改：`sudo vim *.yaml`
+```conf
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  # renderer: NetworkManager
+  ethernets:
+          ens33:
+                  addresses: [192.168.0.111/24]
+                  gateway4: 192.168.0.1
+                  nameservers:
+                        addresses: [192.168.0.1]
+```
+然后保存之后，输入`sudo netplan apply`即可
 
 

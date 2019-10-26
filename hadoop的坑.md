@@ -3,6 +3,7 @@
 ## （1）检查java是否安装
 首先，查看是否装有java:`Java -version`  
 如果没有，则安装java：`sudo apt-get install default-jdk`  
+经测试11版本的jdk垃圾，不能用，只能用8，否则会导致spark出错(java真的垃圾)
 查看sdk路径：`update-alternatives --display java`  
 ## （2）安装ssh
 `sudo apt-get install ssh`
@@ -32,7 +33,7 @@ rsa的用下面指令
 编辑bashrc：`sudo vim ~/.bashrc`
 输入以下内容：
 ```conf
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export HADOOP_HOME=/usr/local/hadoop
 export PATH=$PATH:$HADOOP_HOME/bin
 export PATH=$PATH:$HADOOP_HOME/sbin
@@ -54,7 +55,7 @@ export JAVA_HOME=${JAVA_HOME}
 ```
 改为：
 ```conf
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ```
 ### 设置`core-site.xml`文件
 `sudo vim /usr/local/hadoop/etc/hadoop/core-site.xml`
@@ -113,7 +114,7 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ### 创建datanode数据存储目录
 `sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode`
 ### 将hadoop目录所有者改为hduser
-`sudo chown hduser:hduser -R /usr/local/hadoop`
+`sudo chown tony:tony -R /usr/local/hadoop`
 ### 格式化namenode
 `hadoop namenode -format`
 # 2.启动Hadoop
@@ -237,7 +238,7 @@ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ## （3）master机器配置
 master机器除了上面的修改之外，需要继续修改
 ### hdfs设置
-`sudo vim /usr/local/hadoop/etc/hadoop/hdfs-site.xml`
+`d`
 将原来的
 ```html
 <property>
@@ -272,15 +273,15 @@ master机器除了上面的修改之外，需要继续修改
 `sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs`  
 创建datanode目录  
 `sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode`  
-将目录所有者更改为hduser  
-`sudo chown -R hduser:hduser /usr/local/hadoop`  
+将目录所有者更改为hduser （这一步很重要，否则datanode启动不起来） 
+`sudo chown -R tony:tony /usr/local/hadoop`  
 ### (5)初始化namenode目录
 删除hdfs目录  
 `sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs`  
 创建namenode目录  
 `sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/namenode`  
-将目录所有者更改为hduser  
-`sudo chown -R hduser:hduser /usr/local/hadoop`  
+将目录所有者更改为hduser  （这一步很重要，否则namenode启动不起来）
+`sudo chown -R tony:tony /usr/local/hadoop`  
 格式化namenode目录  
 `hadoop namenode -format`  
 ### (5)启动
@@ -295,9 +296,6 @@ master机器除了上面的修改之外，需要继续修改
 `hadoop fs -get`：将hdfs文件复制到本地
 `hadoop fs -cp`：复制hdfs文件
 `hadoop fs -rm`：删除hdfs文件
-
-
-
 
 
 

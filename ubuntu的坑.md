@@ -103,4 +103,3 @@ Terminal = False
 `scp  -r local_dir username@servername:remote_dir`
 例如：`scp -r test  root@192.168.0.101:/var/www/`    
  把当前目录下的test目录上传到服务器的/var/www/ 目录
-123
