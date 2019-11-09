@@ -19,7 +19,7 @@ export PATH=$PATH:$SCALA_HOME/bin
 `wget http://mirrors.aliyun.com/apache/spark/spark-2.3.4/spark-2.3.4-bin-hadoop2.7.tgz`  
 仍然是解压缩：`tar zxf spark-2.3.4-bin-hadoop2.7.tgz`  
 移动到usr/local/spark:`sudo mv spark-2.3.4-bin-hadoop2.7 /usr/local/spark`  
-环境变量设置：sudo vim ~/.bashrc,输入：
+环境变量设置：`sudo vim ~/.bashrc`,输入：
 ```conf
 export SPARK_HOME=/usr/local/spark
 export PATH=$PATH:$SPARK_HOME/bin
@@ -39,7 +39,7 @@ export PATH=$PATH:$SPARK_HOME/bin
 `textFile.count()`:获取行数  
 `textFile=sc.textFile("hdfs://master:9000/user/README.md")`:读取hdfs文件 (//双斜杠) 
 ## Hadoop YARN 运行pyspark
-`HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop pyspark --master yarn -deploy -mode client`  
+`HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop pyspark --master yarn --deploy-mode client`  
 该模式可以在web端，8090 application中查看  
 ## spark standalone 没有hadoop的情况下做集群运算  
 master设置spark-env.sh：`cp /usr/local/spark/conf/spark-env.sh.template /usr/local/spark/conf/spark-env.sh`  
@@ -242,6 +242,202 @@ stringRDD=textFile.flatmap(lambda x:x.split(' ')) #平滑分割单词
 countsRDD=stringRDD.map(lambda x:(x,1)).reduceByKey(lambda x,y:x+y).collect() #将单词map成次数，并进行相加
 ```
 
+# pycharm使用pyspark
+先找到namenode机器上的pyspark安装路径，找到python文件夹下pyspark
+然后复制到本地pycharm工程文件下的`site-package`中就可以使用了
+
+# 代码执行：
+## 使用spark_submit执行
+`spark-submit --driver-memory 2g --master local[4] test.py`
+## 在Hadoop YARN-client上运行
+`HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop spark-submit --driver-memory 512m --executor-cores 2 --master yarn --deploy-mode client test.py`
+
+## spark推荐引擎
+### 先下载数据集
+wget http://files.grouplens.org/datasets/movielens/ml-100k.zip
+unzip -j ml-100k
+### 启动hadoop
+start-all.sh
+### 创建HDFS目录
+hadoop fs -mkdir -p /user/tony/data
+### 复制文件
+hadoop fs -copyFromLocal -f data /user/tony/
+### 启动notebook
+
+
+# 配置文件路径
+```python
+global Path
+if sc.master[0:5]=='local':
+    Path='hdfs://master:9000/user/tony/'
+else:
+    Path='file:/home/tony'
+Path='hdfs://master:9000/user/tony/'
+```
+# 导入ml-100k数据
+```python
+rawUserData=sc.textFile(Path+'data/u.data')
+rawUserData.count()
+```
+    100000
+```python
+rawUserData.first()
+```
+    '196\t242\t3\t881250949'
+# 导入 Rating模块
+```python
+from pyspark.mllib.recommendation import Rating
+```
+# 读取rawUserData前三个字段
+```python
+rawRatings=rawUserData.map(lambda line:line.split("\t")[:3])
+rawRatings.take(5)
+```
+    [['196', '242', '3'],
+     ['186', '302', '3'],
+     ['22', '377', '1'],
+     ['244', '51', '2'],
+     ['166', '346', '1']]
+# 准备数据
+```python
+ratingsRDD=rawRatings.map(lambda x:(x[0],x[1],x[2]))
+ratingsRDD.take(5)
+```
+    [('196', '242', '3'),
+     ('186', '302', '3'),
+     ('22', '377', '1'),
+     ('244', '51', '2'),
+     ('166', '346', '1')]
+# 查看ratingsRDd项数
+```python
+numRatings=ratingsRDD.count()
+numRatings
+```
+    100000
+# 查看不重复用户数
+```python
+numusers=ratingsRDD.map(lambda x:x[0]).distinct().count()
+numusers
+```
+    943
+# 查看不重复电影数量
+```python
+numMovies=ratingsRDD.map(lambda x:x[1]).distinct().count()
+numMovies
+```
+    1682
+# 导入als模型
+```python
+from pyspark.mllib.recommendation import ALS
+```
+# 进行训练
+```python
+model=ALS.train(ratingsRDD,10,10,0.01)
+```
+# 模型输入参数查看推荐度
+```python
+model.recommendProducts(100,5)
+```
+    [Rating(user=100, product=867, rating=5.99160808572773),
+     Rating(user=100, product=626, rating=5.759012311980551),
+     Rating(user=100, product=1192, rating=5.337188223692671),
+     Rating(user=100, product=1174, rating=5.293404599049024),
+     Rating(user=100, product=1664, rating=5.275271068574069)]
+# 单独查看评分
+```python
+model.predict(100,1141)
+```
+    1.7528306864512355
+# 针对电影推荐用户
+```python
+model.recommendUsers(product=200,num=5)
+```
+    [Rating(user=157, product=200, rating=5.707205202467594),
+     Rating(user=769, product=200, rating=5.648444152806976),
+     Rating(user=261, product=200, rating=5.639454555923988),
+     Rating(user=444, product=200, rating=5.625757805538186),
+     Rating(user=611, product=200, rating=5.581435732299344)]
+# 显示推荐电影名称
+```python
+itemRDD=sc.textFile(Path+'data/u.item')
+itemRDD.count()
+```
+    1682
+变换成字典，编号+名称的方式
+```python
+movieTitle=itemRDD.map(lambda line:line.split('|')).map(lambda a:(float(a[0],a[1]))).collectAsMap()
+len(movieTitle)
+```
+显示前5项数据：
+```python
+movieTitle.items()[:5]
+```
+对应客户100推荐5部电影的推荐名称：
+```python
+recommendP=model.recommendProducts(100,5)
+for p in recommendP:
+    print("对用户"+str(p[0])+'推荐电影'+str(movieTitle[p[1]])+"推荐评分"+str(p[2]))
+```
+验证：
+```python
+from pyspark import SparkContext
+from pyspark import SparkConf
+from pyspark.mllib.recommendation import Rating
+from pyspark.mllib.recommendation import ALS
+
+def CreateSparkContext():
+    sparkConf=SparkConf().setAppName('tuijian').set('spark.ui.showConsoleProgress','false')
+    sc=SparkContext(conf=sparkConf)
+    print('master='+sc.master)
+    SetLogger(sc)
+    SetPath(sc)
+    return sc
+
+def SetLogger(sc):
+    logger=sc._jvm.org.apache.log4j
+    #logger.LogManager.getLogger('org').setlevel(logger.Level.ERROR)
+    logger.LogManager.getLogger('akka').setLevel(logger.Level.ERROR)
+    logger.LogManager.getRootLogger().setLevel(logger.Level.ERROR)
+
+def SetPath(sc):
+    global Path
+    if sc.master[0:5]=='local':
+        Path='hdfs://master:9000/user/tony/'
+    else:
+        Path='hdfs://master:9000/user/tony/'
+    return Path
+
+def SaveModel(sc,model):
+    try:
+        model.save(sc,Path+'ALSmodel')
+        print('已存储Model在ALSmodel')
+    except Exception:
+        print('model已经存在，请先删除在存储')
+
+
+
+global Path
+def main():
+    print('开始执行 Runwordcount')
+    sc = CreateSparkContext()
+    rawUserData = sc.textFile(Path + 'data/u.data')
+    rawUserData.count()
+    rawRatings = rawUserData.map(lambda line: line.split("\t")[:3])
+    ratingsRDD = rawRatings.map(lambda x: (x[0], x[1], x[2]))
+    print('开始训练')
+    model = ALS.train(ratingsRDD, 10, 10, 0.01)
+    print('训练完成，存储model')
+    SaveModel(sc,model)
+    model.recommendProducts(100, 5)
+    itemRDD = sc.textFile(Path + 'data/u.item')
+    movieTitle = itemRDD.map(lambda line: line.split('|')).map(lambda a: (float(a[0]), a[1])).collectAsMap()
+    recommendP = model.recommendProducts(100, 5)
+    for p in recommendP:
+        print("对用户" + str(p[0]) + '推荐电影' + str(movieTitle[p[1]]) + "推荐评分" + str(p[2]))
+
+if __name__ == '__main__':
+    main()
+```
 
 
 
