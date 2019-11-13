@@ -51,3 +51,6 @@ $.ajax({
     });
 });
 ```
+session的问题，用手机号来解决：
+设置同样的set-cookie
+response.set-cookie(key,value)
