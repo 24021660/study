@@ -161,3 +161,4 @@ network:
 在nginx.conf中进行设置，sendfile off;
 然后文件全部删除重新复制一份
 
+打开终端输入–>sudo timedatectl set-local-rtc 1     ->回车，重启电脑！
