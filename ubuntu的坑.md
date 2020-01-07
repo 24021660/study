@@ -108,4 +108,10 @@ pycharm：`sudo snap install [pycharm-professional|pycharm-community] --classic`
 vscode:
 mongodb:
 mysql:
+```
+#命令1
+sudo apt-get update
+#命令2
+sudo apt-get install mysql-server
+```
 nginx:
