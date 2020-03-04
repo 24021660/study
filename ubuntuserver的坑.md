@@ -162,3 +162,7 @@ network:
 然后文件全部删除重新复制一份
 
 打开终端输入–>sudo timedatectl set-local-rtc 1     ->回车，重启电脑！
+# ftp服务器搭建
+安装ftp服务器：`sudo apt-get install vsftpd`
+设置目录与用户权限`sudo useradd -d /home/ftp -s /bin/bash ftpname`
+其中ftpname为用户名，为新建用户设置密码：`passwd ftpname`

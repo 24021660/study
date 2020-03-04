@@ -29,6 +29,7 @@ cursor = conn.cursor()  # 执行完毕返回的结果集默认以元组显示
 #cursor = conn.cursor(cursor=pymysql.cursors.DictCursor)
  
 # 定义要执行的SQL语句
+
 sql = """
 CREATE TABLE USER1 (
 id INT auto_increment PRIMARY KEY ,
@@ -117,7 +118,7 @@ def testdb(request):
     
     # 删除所有数据
     # Test.objects.all().delete()
-    
+
     # 输出所有数据
     for var in list:
         response1 += var.name + " "

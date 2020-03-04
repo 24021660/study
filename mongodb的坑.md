@@ -75,3 +75,71 @@ echo "mongodb-org-tools hold" | sudo dpkg --set-selections
     7.sudo service mongod start
     8.修改mongd.conf中的bindip为0.0.0.0
     9.重启mongod
+
+## 链表查询
+表字段定义
+mycol_case_collection = mydb["case_collection"]   #表A
+mycol_task_collection = mydb["task_collection"]   #表B
+A:
+mylist_case_collection = [
+    {"user_id": "yu", "case_id": "1", "case_name": "案件名1","task_id": ["10000", "10001"]}
+]
+B:
+mylist_task_collection = [
+    {"task_id": "10000","task_type": "1", "task_name": "任务名1-1","create_time": "2019-8-26 15:30:22"}
+]
+对于两张表中的task_id字段进行联合查询
+————————————————
+版权声明：本文为CSDN博主「yuer_xiao」的原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/yuer_xiao/article/details/100164847
+mycol_case_collection = mydb["case_collection"]
+ 
+#当前表A
+result = mycol_case_collection.aggregate(
+    [
+        {
+            '$lookup':
+                {
+                    "from": "task_collection", #需要联合查询的另一张表B
+                    "localField": "task_id",   #表A的字段
+                    "foreignField": "task_id", #表B的字段
+                    "as": "task_docs"          #根据A、B联合生成的新字段名
+                },
+        },
+        {
+            '$project':                        #联合查询后需要显示哪些字段，1：显示
+                {
+                    'task_docs.task_id':1,
+                    'task_docs.task_name':1,
+                    'task_docs.task_type':1,
+                    'task_docs.evidence_content':1,
+                    'case_id':1,
+                    'task_id':1,
+                    'user_id':1,
+                    '_id':0,
+                },
+         },
+        {
+            '$match':                           #根据哪些条件进行查询
+                {
+                    "user_id" : name            #这里是根据表A中 user_id == name 
+                }
+        }
+    ]
+)
+# 高级查询
+符号	含义	示例
+$lt	小于	{'age': {'$lt': 20}}
+$gt	大于	{'age': {'$gt': 20}}
+$lte	小于等于	{'age': {'$lte': 20}}
+$gte	大于等于	{'age': {'$gte': 20}}
+$ne	不等于	{'age': {'$ne': 20}}
+$in	在范围内	{'age': {'$in': [20, 23]}}
+$nin	不在范围内	{'age': {'$nin': [20, 23]}}
+
+$regex	匹配正则表达式	{'name': {'$regex': '^M.*'}}	name以M开头
+$exists	属性是否存在	{'name': {'$exists': True}}	name属性存在
+$type	类型判断	{'age': {'$type': 'int'}}	age的类型为int
+$mod	数字模操作	{'age': {'$mod': [5, 0]}}	年龄模5余0
+$text	文本查询	{'$text': {'$search': 'Mike'}}	text类型的属性中包含Mike字符串
+$where	高级条件查询	{'$where': 'obj.fans_count == obj.follows_count'}	自身粉丝数等于关注数
