@@ -20,8 +20,12 @@ sudo apt-get install cassandra
 配置文件的默认位置是`/etc/cassandra`。  
 日志和数据目录的默认位置是`/var/log/cassandra/`和`/var/lib/cassandra`。  
 可以在中配置启动选项（堆大小等）`/etc/default/cassandra`。
+## 3.配置
+远程访问：找到配置文件，将其中的`rpc_address`改为`0.0.0.0`
+然后重启
 
-## 3.python中使用
+
+## 4.python中使用
 连接数据库：
 ```python
 from cassandra.cluster import Cluster #引入Cluster模块
