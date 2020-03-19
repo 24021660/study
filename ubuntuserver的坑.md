@@ -34,7 +34,8 @@ plugin=python3
 ### 运行：
  `uwsgi --http-socket 0.0.0.0:8080 --plugin python3 --chdir /home/tony/HelloWorld --file /HelloWorld/wsgi.py --processes 4 --threads 2`
 进程过多：`fuser -k 9090/tcp`
-停止uwsgi：uwsgi --stop uwsgi.pid
+停止uwsgi：`uwsgi --stop uwsgi.pid`
+杀死所有进程：`killall -s INT /usr/local/bin/uwsgi`
 
 
 
