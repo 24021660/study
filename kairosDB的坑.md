@@ -1,5 +1,18 @@
-## 数据库连接
-查询数据：
+# 数据库安装
+从官网地址下载压缩包：`wget https://github.com/kairosdb/kairosdb/releases/download/v1.2.2/kairosdb-1.2.2-1.tar.gz`  
+然后解压：`tar -xvf kairosdb-1.2.2-1.tar.gz`  
+之后进入解压目录，寻找conf文件夹里面的文件并修改相关参数： `vim kairosdb.properties`  
+```conf
+主要修改kairosdb的地址端口，以及cassandra的地址与端口
+相关的参数：
+kairosdb.datastore.cassandra.cql_host_list=39.106.189.206
+kairosdb.datastore.cassandra.keyspace=AIOps
+```
+然后进入bin文件夹运行就可以了：` ./kairosdb.sh run`
+后台运行： `./kairosdb.sh start`
+# 数据库连接
+
+## 查询数据：
 ```python
 import requests
 url = 'https://ts.happit.cn/api/v1/datapoints/query'
@@ -27,4 +40,14 @@ def select_data(start_time,end_time,metrics_name,filter_tags=False,group_by=Fals
     r = requests.post(url, data=str(values).encode())
     m=r.json()
     return m
+```
+## 插入数据：
+请求方式`post`
+地址：`url=http://localhost:8030/api/v1/datapoints`
+
+代码如下：
+```python
+data={"name": "archive_file_tracked","datapoints": [[int(time.time())*1000, 123], [1585808126000, 13.2], [1585808111000, 23.1]],"tags": {"host": "server1","data_center": "DC1"},"ttl": 300}
+#name 为表名，datapoints为数据点，主要是以时间跟value组成，tags为分维度条件，{}中为维度下的分类条件
+m=requests.post(insert_url,data=str(data).encode())
 ```

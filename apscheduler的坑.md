@@ -1,5 +1,5 @@
 # 安装 APScheduler
-`$ pip install apscheduler`
+`$ pip3 install apscheduler`
 # 快速开始
 ```python
 from apscheduler.schedulers.blocking import BlockingScheduler
