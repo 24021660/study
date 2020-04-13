@@ -12,3 +12,15 @@
 　　以上
 
 　　END
+
+# git仓库：
+新建一个文件夹，cd进入 `git init --bare project.git`  
+比如工程名称叫做`project`，就起名`project.git`  
+然后在该目录输入`ll project.git/`  
+之后输入`sudo chmod 777 project.git/ -R`  
+将权限放开
+之后就可以使用了,地址：
+`ssh://tony@192.168.245.144/home/git/kaida.git`
+
+# git 权限管理
+chown runoob:runoobgroup file1.txt

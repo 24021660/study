@@ -71,14 +71,6 @@ server
 mongo数据库：`pip3 install pymongo`
 `pip3 install qcloudsms_py`
 
-# git仓库：
-新建一个文件夹，cd进入 `git init --bare project.git`  
-比如工程名称叫做`project`，就起名`project.git`  
-然后在该目录输入`ll test2.git/`  
-之后输入`sudo chmod 777 dong.git/ -R`  
-将权限放开
-之后就可以使用了,地址：
-`ssh://tony@192.168.245.144/home/git/kaida.git`
 ## supervisor进程守护：
 1.安装`pip install supervisor`  
 2.打开内容并复制里面的内容：echo_supervisord_conf  
