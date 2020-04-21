@@ -20,7 +20,7 @@
 之后输入`sudo chmod 777 project.git/ -R`  
 将权限放开
 之后就可以使用了,地址：
-`ssh://tony@192.168.245.144/home/git/kaida.git`
+`ssh://backcoder@39.106.189.206/home/git/wangning.git`
 
 # git 权限管理
 chown runoob:runoobgroup file1.txt

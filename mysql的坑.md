@@ -125,5 +125,12 @@ def testdb(request):
     response = response1
     return HttpResponse("<p>" + response + "</p>")
 ```
-
-
+mysql权限
+查看 mysql 初始的密码策略，
+输入语句 “ SHOW VARIABLES LIKE 'validate_password%'; ” 进行查看，
+首先需要设置密码的验证强度等级，设置 validate_password_policy 的全局参数为 LOW 即可，
+输入设值语句 “ set global validate_password_policy=LOW; ” 进行设值，
+当前密码长度为 8 ，如果不介意的话就不用修改了，按照通用的来讲，设置为 6 位的密码，设置 validate_password_length 的全局参数为 6 即可，
+输入设值语句 “ set global validate_password_length=6; ” 进行设值，
+现在可以为 mysql 设置简单密码了，只要满足六位的长度即可，
+输入修改语句 “ ALTER USER 'root'@'localhost' IDENTIFIED BY '123456'; ” 可以看到修改成功，表示密码策略修改成功了！！！
