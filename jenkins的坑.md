@@ -19,6 +19,7 @@
 
 9.输入密码之后，重启docker镜像 `docker restart {CONTAINER ID}`，安装完毕。
 
-# 2.
+# 2.gitlab+jenkens配置
+
 
 

@@ -108,4 +108,64 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
+## 3.docker封装flask
+创建应用
+首先，编写一个简单的Flask应用：docker_test/flask_app.py
+Docker简介
+Docker 镜像
+Docker镜像 (Image)类似于虚拟机镜像，可以将它理解为一个面向Docker引擎的只读模版，包含了文件系统。镜像是创建Docker容器的基础。
+Docker 容器
+Docker容器 (Container)类似于一个轻量级的沙箱，Docker利用容器来运行和隔离应用。容器是从镜像创建的应用运行实例，可以将其启动、开始、停止、删除，而这些容器都是相互隔离、互不相见的。
+Docker 仓库
+Docker仓库 (Repositort)类似于代码仓库，是Docker集中存放镜像文件的场所。根据公开分享与否，Docker仓库分为公开仓库 (Public)和私有仓库 (Private)两种形式。
+目前最大的公开仓库是Docker Hub，存放了大量的镜像供用户下载。
+Docker 部署步骤
+下载python镜像
+
+可在docker.hub网站上查询python镜像的版本，下载想要的版本
+docker pull python:XXX
+
+运行python镜像
+
+docker run -it python:XXX
+
+另起一个控制台窗口，查看上步容器的ID
+
+docker ps|grep python 可以看到当前容器的ID
+
+进入python容器
+
+docker exec -it 容器ID /bin/bash
+
+安装Flask应用所需的依赖包
+
+pip install -r requirements.txt
+
+安装完成后，另起一个窗口，将当前的容器制作成镜像
+
+docker commit 容器ID 新名字
+
+在docker_test/下编写dockfile, 举例
+
+FROM docker_test:v0.1
+COPY flask_app.py /flask_app.py
+EXPOSE 5000
+ENTRYPOINT ["python","flask_app.py"]
+
+第一行为基础镜像，即第7步中制作的镜像
+第二行是将Python程序导入容器
+第三行是暴露python的端口
+第四行是运行容器时执行的命令
+
+在docker_test/下制作镜像
+
+docker build -t 镜像名字 .
+
+运行容器
+
+docker run -p5000:5000 镜像名字
+
+## 4.docker操作
+`docker container ls -all` 查看所有容器
+
 
