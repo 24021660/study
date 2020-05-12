@@ -75,7 +75,38 @@ echo "mongodb-org-tools hold" | sudo dpkg --set-selections
     7.sudo service mongod start
     8.修改mongd.conf中的bindip为0.0.0.0
     9.重启mongod
-
+## 3.docker安装mongodb
+### 1.拉取镜像
+这里我们拉取官方的最新版本的镜像：
+```
+$ docker pull mongo:latest
+```
+### 2、查看本地镜像
+使用以下命令来查看是否已安装了 mongo：
+```
+$ docker images
+```
+在上图中可以看到我们已经安装了最新版本（latest）的 mongo 镜像。
+### 3、运行容器
+安装完成后，我们可以使用以下命令来运行 mongo 容器：
+```docker
+$ docker run -itd --name mongo -p 27017:27017 mongo --auth
+```
+参数说明：
+```
+-p 27017:27017 ：映射容器服务的 27017 端口到宿主机的 27017 端口。外部可以直接通过 宿主机 ip:27017 访问到 mongo 的服务。
+--auth：需要密码才能访问容器服务。
+```
+### 4、安装成功
+最后我们可以通过 docker ps 命令查看容器的运行信息：
+接着使用以下命令添加用户和设置密码，并且尝试连接。
+```docker
+$ docker exec -it mongo mongo admin
+# 创建一个名为 admin，密码为 123456 的用户。
+>  db.createUser({ user:'admin',pwd:'123456',roles:[ { role:'root', db: 'admin'}]});
+# 尝试使用上面创建的用户信息进行连接。
+> db.auth('admin', '123456')
+```
 ## 链表查询
 表字段定义
 mycol_case_collection = mydb["case_collection"]   #表A

@@ -9,16 +9,16 @@
      ` sudo vim /etc/apt/sources.list`  
       （3）更新镜像文件
 ```
-deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
-deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-proposed main restricted universe multiverse
-deb-src http://mirrors.aliyun.com/ubuntu/ xenial-backports main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-security main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-updates main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-proposed main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu/ trusty-backports main restricted universe multiverse
 ```
 （4）提交更新
      ` sudo apt-get update`  
@@ -115,3 +115,7 @@ sudo apt-get update
 sudo apt-get install mysql-server
 ```
 nginx:
+
+# Some index files failed to download. They have been ignored, or old ones used instead
+vi /etc/resolv.conf
+添加： nameserver 8.8.8.8 
