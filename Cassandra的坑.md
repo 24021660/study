@@ -83,4 +83,3 @@ toc = time.time()
 print('vectorized version:' +str((toc - tic))  +'s')  
 vectorized version:116.4514513015747s  #插入116万条数据，用时116秒
 ```
-

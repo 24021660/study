@@ -11,6 +11,7 @@
 5.然后安装django命令组件：`sudo apt-get install python-django`  
 
 # 安装uwsgi：pip install uwsgi
+依赖包：apt-get install build-essential python-dev
 uwsgi动态处理能力较强：所以目前可以先用uwsgi带项目：
 ## 1.配置文件编写：
   进入/script目录（manage.py上级目录），创建一个`uwsgi.ini`文件
@@ -19,6 +20,7 @@ uwsgi动态处理能力较强：所以目前可以先用uwsgi带项目：
 [uwsgi]
 http-socket = :8080
 chdir=/home/tony/kaigeda #这里一定要指定manage.py的路径否则noapp
+virtualenv = /root/.virtualenvs  #这里如果有虚拟环境的话需要配置虚拟环境
 wsgi-file = /kaida/wsgi.py #也可以写成module=test
 processes = 4
 master = true

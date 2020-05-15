@@ -118,3 +118,5 @@ sudo vim /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml
 ```yaml
 host： 10.1.63.217
 ```
+# 5.developer无法push
+找到admin area，进入settings，进入repository，然后选择protected Branches 将allowed to merge 以及allowed to push中角色选择成developer
