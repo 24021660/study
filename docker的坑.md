@@ -167,7 +167,12 @@ docker run -p5000:5000 镜像名字
 
 ## 4.docker操作
 `docker container ls -all` 查看所有容器
-
+docker导入导出
+docker save 名字 -o 镜像名字>输出目录
+sudo docker save jenkins:aiops>/home/jenkinsaiops.tar
+取得root权限并进入：
+sudo docker exec -ti -u root 7509371edd48 bash
+docker rmi `docker image -q`   #删除所有的镜像
 ## 5.修改运行中的docker端口
 在docker run创建并运行容器的时候，可以通过-p指定端口映射规则。但是，我们经常会遇到刚开始忘记设置端口映射或者设置错了需要修改。当docker start运行容器后并没有提供一个-p选项或设置，让你修改指定端口映射规则。那么这种情况我们该怎么处理呢？今天Docker君教你如何修改运行中的docker容器的端口映射？
 

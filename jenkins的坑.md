@@ -9,7 +9,7 @@
 
 4.启动一个jenkins容器 `docker run -d --name jenkins_01 -p 8081:8080 -v /home/jenkins_01:/home/jenkins_01 jenkins/jenkins:lts`;
 
-5.查看jenkins服务 `docker ps | grep jenkins`;
+5.查看jenkins服务 `docker ps | gdockerrep jenkins`;
 
 6.启动服务端 。`localhost:8081`;
 
