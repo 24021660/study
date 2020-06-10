@@ -2,7 +2,8 @@
 首先集群的username必须一致，否则集群登不上去
 ## （1）检查java是否安装
 首先，查看是否装有java:`Java -version`  
-如果没有，则安装java：`sudo apt-get install default-jdk`  
+
+如果没有，则安装java：``  
 经测试11版本的jdk垃圾，不能用，只能用8，否则会导致spark出错(java真的垃圾)
 查看sdk路径：`update-alternatives --display java`  
 ## （2）安装ssh
@@ -25,9 +26,9 @@ rsa的用下面指令
 `http://archive.apache.org/dist/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz`  
 进入终端，然后使用`wget http://archive.apache.org/dist/hadoop/common/hadoop-2.6.4/hadoop-2.6.4.tar.gz`下载  
 如果觉得慢，可以使用阿里云的镜像源：
-`http://mirrors.aliyun.com/apache/hadoop/common/hadoop-2.7.7/hadoop-2.7.7.tar.gz`  
-解压缩：`sudo tar  -zxvf hadoop-2.7.7.tar.gz`  
-移动到目录:`sudo mv hadoop-2.7.7 /usr/local/hadoop`
+`http://mirrors.aliyun.com/apache/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz`  
+解压缩：`sudo tar  -zxvf hadoop-3.2.1.tar.gz`  
+移动到目录:`sudo mv hadoop-3.2.1 /usr/local/hadoop`
 查看目录：`ll /usr/local/hadoop`
 ## (7)设置Hadoop环境变量
 编辑bashrc：`sudo vim ~/.bashrc`
@@ -48,17 +49,17 @@ export JAVA_LIBRARY_PATH=$HADOOP_HOME/lib/native:$JAVA_LIBRARY_PATH
 让上述指令生效：`source ~/.bashrc`
 ## (8)修改Hadoop配置文件
 ### 设置`hadoop-env.sh`配置文件:
-`sudo vim /usr/local/hadoop/etc/hadoop/hadoop-env.sh`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/hadoop-env.sh`
 将原本的JAVA_HOME
 ```conf
 export JAVA_HOME=${JAVA_HOME}
 ```
 改为：
 ```conf
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 ```
 ### 设置`core-site.xml`文件
-`sudo vim /usr/local/hadoop/etc/hadoop/core-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/core-site.xml`
 在`configuration`标签中加入
 ```html
  <property>
@@ -67,7 +68,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 </property>
 ```
 ### 编辑YARN-site.xml
-`sudo vim /usr/local/hadoop/etc/hadoop/yarn-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/yarn-site.xml`
 在`configuration`中加入
 ```html
 <property>
@@ -81,9 +82,9 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ```
 ### 设置mapred-site.xml
 复制模板文件：由mapred-site.xml.template至mapred-site.xml
-`sudo cp /usr/local/hadoop/etc/hadoop/mapred-site.xml.template /usr/local/hadoop/etc/hadoop/mapred-site.xml`
+`sudo cp /home/hadoop/hadoop/etc/hadoop/mapred-site.xml.template /usr/local/hadoop/etc/hadoop/mapred-site.xml`
 ### 编辑mapred-site.xml
-`sudo vim /usr/local/hadoop/etc/hadoop/mapred-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/mapred-site.xml`
 在`configurarion`中加入
 ```html
 <property>
@@ -92,7 +93,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 </property>
 ```
 ### 设置hdfs-site.xml
-`sudo vim /usr/local/hadoop/etc/hadoop/hdfs-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/hdfs-site.xml`
 在`configurarion`中输入
 ```html
 <property>
@@ -107,14 +108,18 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
     <name>dfs.datanode.data.dir</name>
     <value>file:/usr/local/hadoop/hadoop_data/hdfs/datanode</value>
 </property>
+<property>
+    <name>dfs.namenode.http-address</name>
+    <value>master:50070</value>
+</property>
 ```
 ## (9)创建并格式化HDFS目录
 ### 创建namenode数据存储目录
-`sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/namenode`
+`sudo mkdir -p /home/hadoop/hadoop/hadoop_data/hdfs/namenode`
 ### 创建datanode数据存储目录
-`sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode`
+`sudo mkdir -p /home/hadoop/hadoop/hadoop_data/hdfs/datanode`
 ### 将hadoop目录所有者改为hduser
-`sudo chown tony:tony -R /usr/local/hadoop`
+`sudo chown tony:tony -R /home/hadoop/hadoop`
 ### 格式化namenode
 `hadoop namenode -format`
 # 2.启动Hadoop
@@ -140,7 +145,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ```
 ## （2）data机器设置
 ### 设置HDFS名称
-用于存取的时候使用：`sudo vim /usr/local/hadoop/etc/hadoop/core-site.xml`
+用于存取的时候使用：`sudo vim /home/hadoop/hadoop/etc/hadoop/core-site.xml`
 将原来的
 ```html
 <property>
@@ -156,7 +161,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 </property>
 ```
 ### 设置yarn
-使用`sudo vim /usr/local/hadoop/etc/hadoop/yarn-site.xml`
+使用`sudo vim /home/hadoop/hadoop/etc/hadoop/yarn-site.xml`
 在原来的
 ```html
 <property>
@@ -192,7 +197,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 </property>
 ```
 ### 设置mapred
-`sudo vim /usr/local/hadoop/etc/hadoop/mapred-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/mapred-site.xml`
 将原来的
 ```html
 <property>
@@ -208,7 +213,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 </property>
 ```
 ### 设置hdfs
-`sudo vim /usr/local/hadoop/etc/hadoop/hdfs-site.xml`
+`sudo vim /home/hadoop/hadoop/etc/hadoop/hdfs-site.xml`
 将原来的
 ```html
 <property>
@@ -234,6 +239,15 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
     <name>dfs.datanode.data.dir</name>
     <value>file:/usr/local/hadoop/hadoop_data/hdfs/datanode</value>
 </property>
+<property>
+ <name>dfs.permissions.enabled</name>
+ <value>false</value>
+ </property>
+ <property>
+ <name>dfs.webhdfs.enabled</name>
+ <value>true</value>
+ </property>
+
 ```
 ## （3）master机器配置
 master机器除了上面的修改之外，需要继续修改
@@ -262,26 +276,26 @@ master机器除了上面的修改之外，需要继续修改
 </property>
 ```
 ### 编辑master文件
-`sudo vim /usr/local/hadoop/etc/hadoop/masters`  
+`sudo vim /home/hadoop/hadoop/etc/hadoop/masters`  
 在文件中将名称改为`master`  
 ### 编辑slaves文件
-`sudo vim /usr/local/hadoop/etc/hadoop/slaves`  
+`sudo vim /home/hadoop/hadoop/etc/hadoop/slaves`  
 将文件中的名称改为`data1`,`data2`,`data3`  
 ### (4)初始化，创建hdfs目录 
 使用master，ssh连入data1，2，3  
 删除hdfs目录  
-`sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs`  
+`sudo rm -rf /home/hadoop/hadoop/hadoop_data/hdfs`  
 创建datanode目录  
-`sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/datanode`  
+`sudo mkdir -p /home/hadoop/hadoop/hadoop_data/hdfs/datanode`  
 将目录所有者更改为hduser （这一步很重要，否则datanode启动不起来） 
-`sudo chown -R tony:tony /usr/local/hadoop`  
+`sudo chown -R hadoop:hadoop /home/hadoop/hadoop`  
 ### (5)初始化namenode目录
 删除hdfs目录  
-`sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs`  
+`sudo rm -rf /home/hadoop/hadoop/hadoop_data/hdfs`  
 创建namenode目录  
-`sudo mkdir -p /usr/local/hadoop/hadoop_data/hdfs/namenode`  
+`sudo mkdir -p /home/hadoop/hadoop/hadoop_data/hdfs/namenode`  
 将目录所有者更改为hduser  （这一步很重要，否则namenode启动不起来）
-`sudo chown -R tony:tony /usr/local/hadoop`  
+`sudo chown -R tony:tony /home/hadoop/hadoop`  
 格式化namenode目录  
 `hadoop namenode -format`  
 ### (5)启动

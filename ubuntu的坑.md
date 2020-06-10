@@ -123,3 +123,7 @@ nginx:
 # Some index files failed to download. They have been ignored, or old ones used instead
 vi /etc/resolv.conf
 添加： nameserver 8.8.8.8 
+
+# 安装所有驱动
+ubuntu-drivers devices
+sudo ubuntu-drivers autoinstall

@@ -227,3 +227,30 @@ docker pull cassandra
 然后运行：
 docker run --name some-cassandra -v /my/own/datadir:/var/lib/cassandra -d cassandra:lastest
 
+## 7.docker集群管理
+### 使用portainer
+#### 每个节点开放2375端口：
+打开文件
+```
+vi /lib/systemd/system/docker.service
+```
+在ExecStart加入以下参数
+```
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock --containerd=/run/containerd/containerd.sock
+```
+然后重启docker：
+```
+systemctl daemon-reload // 1，加载docker守护线程
+systemctl restart docker // 2，重启docker
+```
+#### 安装portainer
+```
+docker run -d -p 9000:9000 \
+--restart=always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+--name prtainer-test \
+portainer/portainer
+```
+然后登陆之后，用户名：admin，密码：可以自己设定
+然后选择remote，url填写IP地址+2375端口就可以了
+

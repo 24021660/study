@@ -45,4 +45,6 @@ pip download -d  [savetest\whls]  -r [packages.txt]
 pip install --download . -r packages.txt　
 #离线的话
 pip install --no-index --find-links=savetest\whls -r packages.txt
+#pip内存不足：
+pip --no-cache-dir install xx
 ```
