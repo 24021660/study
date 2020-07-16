@@ -2,8 +2,7 @@
 首先集群的username必须一致，否则集群登不上去
 ## （1）检查java是否安装
 首先，查看是否装有java:`Java -version`  
-
-如果没有，则安装java：``  
+如果没有，则安装java8：`sudo apt install openjdk-8-jdk`  
 经测试11版本的jdk垃圾，不能用，只能用8，否则会导致spark出错(java真的垃圾)
 查看sdk路径：`update-alternatives --display java`  
 ## （2）安装ssh
@@ -56,7 +55,7 @@ export JAVA_HOME=${JAVA_HOME}
 ```
 改为：
 ```conf
-export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ```
 ### 设置`core-site.xml`文件
 `sudo vim /home/hadoop/hadoop/etc/hadoop/core-site.xml`

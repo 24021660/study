@@ -253,4 +253,16 @@ portainer/portainer
 ```
 然后登陆之后，用户名：admin，密码：可以自己设定
 然后选择remote，url填写IP地址+2375端口就可以了
+#### docker sudo组
+sudo gpasswd -a ${USER} docker
+sudo service docker restart 
 
+#### 访问docker仓库
+```
+sudo echo '{ "insecure-registries":["10.1.63.217:5000"] }' > /etc/docker/daemon.json
+systemctl restart docker
+```
+#### docker空间不足需要迁移到其他盘符：
+1.docker info 查看docker的初始位置
+2.将/var/lib/docker文件夹复制到相应位置
+3.然后修改/lib/systemd/system/docker.service,将

@@ -122,3 +122,8 @@ server
 运行`nginx`，或者`nginx -t`查看语法是否有误
 修改/etc/nginx/nginx.conf中http下的内容，将上面的内容复制进去，即可实现简单的负载均衡。
 
+## nginx前台启动
+
+## 使用nginx_upstream_check_module
+
+
