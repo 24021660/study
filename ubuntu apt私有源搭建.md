@@ -180,18 +180,18 @@ sudo service nginx restart
 `sudo vi /etc/apt/sources.list`
 修改成该地址的源,如源的地址为：http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ ，则改为：
 ```
-deb http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
-deb-src http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
+deb-src http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic main restricted universe multiverse
 
-deb http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
-deb-src http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
+deb-src http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-security main restricted universe multiverse
 
-deb http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
-deb-src http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
+deb-src http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-updates main restricted universe multiverse
 
-deb http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
-deb-src http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
+deb-src http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-proposed main restricted universe multiverse
 
-deb http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
-deb-src http://192.168.152.139:8003/mirror/mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
+deb-src http://10.1.69.4:8002/mirror/mirrors.aliyun.com/ubuntu/ bionic-backports main restricted universe multiverse
 ```

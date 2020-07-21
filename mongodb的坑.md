@@ -174,3 +174,110 @@ $type	类型判断	{'age': {'$type': 'int'}}	age的类型为int
 $mod	数字模操作	{'age': {'$mod': [5, 0]}}	年龄模5余0
 $text	文本查询	{'$text': {'$search': 'Mike'}}	text类型的属性中包含Mike字符串
 $where	高级条件查询	{'$where': 'obj.fans_count == obj.follows_count'}	自身粉丝数等于关注数
+## 5.mongodb权限管理
+docker exec -it mongo mongo admin
+# 创建一个名为 admin，密码为 123456 的用户。
+>  db.createUser({ user:'admin',pwd:'123456',roles:[ { role:'userAdminAnyDatabase', db: 'admin'}]});
+# 尝试使用上面创建的用户信息进行连接。
+> db.auth('admin', '123456')
+show dbs          查看数据库
+
+use dbname      进入数据库
+
+show users        查看当前数据库用户权限
+
+MongoDB 创建用户 修改权限 修改密码 删除用户
+2
+创建用户
+
+db.createUser({user:"usertest",pwd:"passtest",roles:[  {role:"clusterAdmin", db:"admin" }, {role:"readAnyDatabase",db:"admin" }, {role:"readWrite",db:"testDB" } ]})
+
+MongoDB 创建用户 修改权限 修改密码 删除用户
+3
+权限详解
+
+内建角色：
+
+数据库用户角色：read、readWrite；
+
+数据库管理角色：dbAdmin、dbOwner、userAdmin；
+
+集群管理角色：   clusterAdmin、clusterManager、clusterMonitor、hostManager；
+
+备份恢复角色：   backup、restore；
+
+所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase
+
+超级用户角色：   root；  这里还有几个角色间接或直接提供了系统超级用户的访问（dbOwner 、userAdmin、userAdminAnyDatabase）
+
+内部角色：          __system；
+
+------------------------------------------------------------------------------------------
+
+角色说明：
+
+Read：                             允许用户读取指定数据库
+
+readWrite：                     允许用户读写指定数据库
+
+dbAdmin：                      允许用户在指定数据库中执行管理函数，如索引创建、删除，查看统计或访问system.profile
+
+userAdmin：                    允许用户向system.users集合写入，可以找指定数据库里创建、删除和管理用户
+
+dbOwner：                       允许在当前DB中执行任意操作
+
+readAnyDatabase：          赋予用户所有数据库的读权限，只在admin数据库中可用
+
+readWriteAnyDatabase： 赋予用户所有数据库的读写权限，只在admin数据库中可用
+
+userAdminAnyDatabase：赋予用户所有数据库管理User的权限，只在admin数据库中可用
+
+dbAdminAnyDatabase：   赋予管理所有数据库的权限，只在admin数据库中可用
+
+root：                                 超级账号，超级权限，只在admin数据库中可用。
+
+------------------------------------------------------------------------------------------
+
+集群管理角色：
+
+clusterAdmin：                  赋予管理集群的最高权限，只在admin数据库中可用
+
+clusterManager：               赋予管理和监控集群的权限
+
+clusterMonitor：                赋予监控集群的权限，对监控工具具有readonly的权限
+
+hostManager：                   赋予管理Server
+
+4
+修改密码
+
+方法1：db.changeUserPassword("usertest","changepass");
+
+方法2：db.updateUser("usertest",{pwd:"changepass1"})；
+
+MongoDB 创建用户 修改权限 修改密码 删除用户
+5
+修改权限
+
+
+db.updateUser("usertest",{roles:[ {role:"read",db:"testDB"} ]})
+
+注：updateuser它是完全替换之前的值，如果要新增或添加roles而不是代替它 
+
+则使用方法： db.grantRolesToUser() 和 db.revokeRolesFromUser(）
+
+------------------------------------------------------------------------------------------
+
+db.grantRolesToUser("usertest", [{role:"readWrite", db:"testDB"},{role:"read", db:"testDB"}])   # 修改权限
+
+db.revokeRolesFromUser("usertest",[{role:"read", db:"testDB"}])   # 删除权限：
+
+MongoDB 创建用户 修改权限 修改密码 删除用户
+MongoDB 创建用户 修改权限 修改密码 删除用户
+MongoDB 创建用户 修改权限 修改密码 删除用户
+6
+删除用户
+
+db.dropUser('usertest')
+
+MongoDB 创建用户 修改权限 修改密码 删除用户
