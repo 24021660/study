@@ -1,0 +1,30 @@
+1.如果要隐藏登录页面，请执行此配置
+```[auth]
+	# Set to true to disable (hide) the login form, useful if you use OAuth
+	#disable_login_form = false 
+	disable_login_form = true
+    更改disable_login_form到true
+```
+2.启用匿名访问
+```
+ [auth.anonymous]
+ # enable anonymous access 
+   enabled = true
+```
+3.指定组织
+```
+	# specify organization name that should be used for unauthenticated users
+	org_name = YOUR_ORG_NAME_HERE       
+```
+我是在这儿遇到的坑， 因为自定义的组织名称没有在项目中定义， 所以开始匿名登录之后一直需要登录
+最后通过查看日志log文件看到有这么一句话，
+msg="Anonymous access organization error: 'My org.': Organization not found"
+原来是组织名称没有定义 ，
+解决方案：
+使用admin登录进去之后，修改了组织的名称， 保存，就OK了
+
+重新启动grafana，你应该能够看到grafana（如果你没有看到dasboard，只需将你的组织角色Viewer改为Editor
+```
+# specify role for unauthenticated users
+org_role = Editor
+```
