@@ -266,3 +266,9 @@ systemctl restart docker
 1.docker info 查看docker的初始位置
 2.将/var/lib/docker文件夹复制到相应位置
 3.然后修改/lib/systemd/system/docker.service,将
+
+#### docker 安装oracle
+oracle官方下载：进入oracle官网进行下载
+git上有相关的dockerfile：https://github.com/oracle/docker-images
+下载下来之后，找到oracledatabase，进入其中的singleinstance/dockerfiles,修改执行权限：`chmod a+x *.sh && chmod a+x */*.sh`
+然后将官方对应版本的zip拷贝进去，
