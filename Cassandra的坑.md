@@ -83,3 +83,20 @@ toc = time.time()
 print('vectorized version:' +str((toc - tic))  +'s')  
 vectorized version:116.4514513015747s  #插入116万条数据，用时116秒
 ```
+## 5.导入导出表结构
+```sh
+##导出
+./cqlsh 127.0.0.1 -e 'desc keyspace keyspace_name' -u user -p pwd > db.cql
+##导入
+./cqlsh 192.168.198.51 -u cassandra -p cassandra  -f db.cql
+```
+## 6.导出表数据
+```sh
+#导出
+COPY mydb.user TO '/usr/usr.scv';
+#导入
+COPY mydb.user from '/usr/usr.scv';
+```
+CREATE ROLE busuanzi WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = 'busuanzi.org';
+
+ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;

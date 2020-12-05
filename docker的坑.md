@@ -98,6 +98,7 @@ For more examples and ideas, visit:
 2. 配置镜像加速器
 针对Docker客户端版本大于 1.10.0 的用户
 您可以通过修改daemon配置文件/etc/docker/daemon.json来使用加速器
+ubuntu:
 ```
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
@@ -107,6 +108,15 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
+```
+mac:
+```
+针对安装了Docker for Mac的用户，您可以参考以下配置步骤：
+
+在任务栏点击 Docker Desktop 应用图标 -> Perferences，在左侧导航菜单选择 Docker Engine，在右侧输入栏编辑 json 文件。将
+
+https://c9eegqj0.mirror.aliyuncs.com加到"registry-mirrors"的数组里，点击 Apply & Restart按钮，等待Docker重启并应用配置的镜像加速器。
+
 ```
 ## 3.docker封装flask
 创建应用
@@ -272,3 +282,5 @@ oracle官方下载：进入oracle官网进行下载
 git上有相关的dockerfile：https://github.com/oracle/docker-images
 下载下来之后，找到oracledatabase，进入其中的singleinstance/dockerfiles,修改执行权限：`chmod a+x *.sh && chmod a+x */*.sh`
 然后将官方对应版本的zip拷贝进去，
+
+## docker管理权限

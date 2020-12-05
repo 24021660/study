@@ -186,8 +186,69 @@ win=new BrowserWindow({
   .content{flex:1;overflow-y: auto;overflow-x:auto;}
 </style>
 ```
-### (3)窗口控制按钮
+### (3)主进程与渲染进程控制
+需要在electron-dist中,新建一个preload2.js，然后在web的配置中preload进去，然后，再引用即可
+```js
+//preload2.js
+window.ipcRenderer = require('electron').ipcRenderer;
+```
+```js
+//background.js
+win = new BrowserWindow({
+    width: 400,
+    height: 600,
+    frame:false,
+    webPreferences: {
+      // Use pluginOptions.nodeIntegration, leave this alone
+      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
+      nodeIntegration: true,
+      preload: __dirname + '/preload2.js'//加上这一行
+    }
+//然后生成ipc的方法来调用主进程的函数。
+ipcMain.on('synchronous-message', (event, arg) => {
+  if (arg === 'logined') {
+    win.setSize(1000, 600)
+    win.center()
+  }
+})
+```
+```js
+//渲染的页面中加上：
+const ipcRenderer = window.ipcRenderer;
+ipcRenderer.send('synchronous-message','logined')
+```
 
+## 定时任务：
+```js
+time_count_start(){setInterval(this.listen_status, 10000);},
+//注意里面是不加（）的要不没有返回值的函数只能执行一次
+```
+## 获取父页面的值：
+```js
+this.user_id = this.$parent.user_id;
+```
+## 获取之前页面的值：
+```js
+//之前页面：push里面需要加上param
+that.$router.push({
+              path: "/main",
+              query: {
+                user_id: that.user_id,
+                username: res.data.username,
+                password: that.password,
+                vpn_status: res.data.vpn[0],
+                vpn_username: res.data.vpn[1],
+                vpn_password: res.data.vpn[2],
+                kaoqin_status: res.data.kaoqin[0],
+                kaoqin_username: res.data.kaoqin[1],
+                kaoqin_password: res.data.kaoqin[2],
+              },
+            });
+
+//后续页面            
+this.user_id = this.$route.param.user_id;
+```
+## 获取路径
 
 
 

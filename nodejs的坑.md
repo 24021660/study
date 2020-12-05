@@ -126,3 +126,22 @@ console.log('Server running at http://127.0.0.1:8080/');
 然后运行就可以了
 
 
+### fs使用：
+1.新增文件：
+```js
+fs.writeFile(app.getAppPath()+'/kaoqin_info.txt', info_data, (err) => {
+      if (err) throw err;
+      console.log('文件已被保存');
+    });
+```
+2.读取文件
+```js
+fs.readFile(app.getAppPath()+'/vpn_info.txt', 'utf-8',(err, data) => {
+      if (err) throw err;
+      event.reply('read-userinfo-response', data)
+    });
+```
+3.删除文件：
+```js
+
+```

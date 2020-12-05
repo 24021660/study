@@ -127,3 +127,12 @@ vi /etc/resolv.conf
 # 安装所有驱动
 ubuntu-drivers devices
 sudo ubuntu-drivers autoinstall
+
+# 查看端口占用
+
+
+# 时间同步
+sudo apt-get install ntpdate
+2.将系统时间与网络同步
+
+ntpdate cn.pool.ntp.org

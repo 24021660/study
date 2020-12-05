@@ -232,3 +232,180 @@ bar
 
 ## Step 8:使用 Kafka Streams 来处理数据
 Kafka Streams是用于构建实时关键应用程序和微服务的客户端库，输入与输出数据存储在Kafka集群中。 Kafka Streams把客户端能够轻便地编写部署标准Java和Scala应用程序的优势与Kafka服务器端集群技术相结合，使这些应用程序具有高度伸缩性、弹性、容错性、分布式等特性。 本快速入门示例将演示如何运行一个基于该库编程的流式应用程序。
+
+## kafka开启kerberos认证
+当kafka开启Kerberos认证后，如何使用java API生产或消费数据呢？
+
+其实就是在生产消费者的代码中加入jaas、keytab这些认证有关的配置，下面我们直接看代码：
+
+ 
+
+认证配置文件
+
+kafka_client_jaas.conf
+```
+KafkaClient {
+        com.sun.security.auth.module.Krb5LoginModule required
+        useKeyTab=true
+        keyTab="D:\\resources\\user1.keytab"
+        storeKey=true
+        useTicketCache=false
+        principal="user1@TEST.COM"
+        serviceName=kafka;
+    };
+
+Client {
+        com.sun.security.auth.module.Krb5LoginModule required
+        useKeyTab=true
+        keyTab="D:\\resources\\user1.keytab"
+        storeKey=true
+        useTicketCache=false
+        principal="user1@TEST.COM"
+       serviceName=kafka;
+};
+```
+krb5.conf
+```
+#File modified by ipa-client-install
+
+includedir /var/lib/sss/pubconf/krb5.include.d/
+
+[libdefaults]
+  default_realm = TEST.COM
+  dns_lookup_realm = false
+  dns_lookup_kdc = false
+  rdns = false
+  ticket_lifetime = 24h
+  renew_lifetime = 36h
+  forwardable = yes
+  udp_preference_limit = 0
+
+
+[realms]
+  HAOHANDATA.COM = {
+    kdc = dn2.test.com:88
+    master_kdc = dn2.test.com:88
+    admin_server = dn2.test.com:749
+    default_domain = test.COM
+    pkinit_anchors = FILE:/etc/ipa/ca.crt
+  }
+
+
+[domain_realm]
+  .TEST.COM = TEST.COM
+  TEST.COM = TEST.COM
+  .test.com = TEST.COM
+  test.com = TEST.COM
+```
+ 
+
+消费者
+
+需要添加认证有关的环境变量，有两种方式：
+
+直接在代码中使用System.setProperty进行设置
+启动JVM时设置，使用-D传递参数
+在此示例中，直接在代码中设置：
+
+/**
+ * 消费者
+ */
+ ```
+public class ConsumerTest {
+
+
+    public static void main(String[] args) {
+
+        //在windows中设置JAAS，也可以通过-D方式传入
+        System.setProperty("java.security.auth.login.config", "D:\\resources\\kafka_client_jaas.conf");
+        System.setProperty("java.security.krb5.conf", "D:\\resources\\krb5.conf");
+        //在Linux中设置JAAS，也可以通过-D方式传入
+//        System.setProperty("java.security.auth.login.config", "/jaas/kafka_client_jaas.conf");
+//        System.setProperty("java.security.krb5.conf", "/etc/krb5.conf");
+
+
+        Properties props = new Properties();
+        // 定义kakfa 服务的地址，不需要将所有broker指定上
+        props.put("bootstrap.servers", "10.10.2.19:9092,10.10.2.18:9092");
+        // 制定consumer group
+        props.put("group.id", "hhtest");
+        // 是否自动确认offset
+        props.put("enable.auto.commit", "true");
+
+        props.put("auto.offset.reset", "earliest");
+
+        // 自动确认offset的时间间隔
+        props.put("auto.commit.interval.ms", "1000");
+        // key的序列化类
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        // value的序列化类
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+
+        props.put("security.protocol", "SASL_PLAINTEXT");
+        props.put("sasl.kerberos.service.name", "kafka");
+        props.put("sasl.mechanism", "GSSAPI");
+
+
+        // 定义consumer
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(props);
+
+        // 消费者订阅的topic, 可同时订阅多个
+        consumer.subscribe(Arrays.asList("translog"));
+
+        while (true) {
+            // 读取数据，读取超时时间为100ms
+            ConsumerRecords<String, String> records = consumer.poll(100);
+
+            for (ConsumerRecord<String, String> record : records)
+
+                System.out.printf("partition = %s, offset = %d, key = %s, value = %s%n",record.partition(), record.offset(), record.key(), record.value());
+        }
+    }
+
+}
+```
+生产者
+```
+public class ProducerTest {
+
+    public static void main(String[] args) {
+
+        //在windows中设置JAAS，也可以通过-D方式传入
+        System.setProperty("java.security.auth.login.config", "D:\\resources\\kafka_client_jaas.conf");
+        System.setProperty("java.security.krb5.conf", "D:\\resources\\krb5.conf");
+        //在Linux中设置JAAS，也可以通过-D方式传入
+        //System.setProperty("java.security.auth.login.config", "/jaas/kafka_client_jaas.conf");
+        //System.setProperty("java.security.krb5.conf", "/etc/krb5.conf");
+
+
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "192.168.2.19:9092,192.168.2.18:9092");
+        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("security.protocol", "SASL_PLAINTEXT");
+        props.put("sasl.kerberos.service.name", "kafka");
+        props.put("sasl.mechanism", "GSSAPI");
+        KafkaProducer<String,String> producer = new KafkaProducer<String, String>(props);
+
+        String topic = "demoTopic";
+
+        Scanner scan  = new Scanner(System.in);
+
+        while (true){
+            System.out.print(">>");
+            String message = scan.nextLine();
+            producer.send(new ProducerRecord<String, String>(topic, message));
+            System.out.println(message);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+}
+```
+## 后台启动zookepeer跟kafka
+--deamon

@@ -105,6 +105,11 @@ new Vue({
 })
 </script>
 ```
+注意，这样样式在scoped中会丢失，为了不丢失所以需要以下操作：
+```css
+>>> .test{color:#d6d5d5}
+加三个箭头
+```
 #### (3)样式
 HTML 属性中的值应使用 v-bind 指令。
 以下实例判断 use 的值，如果为 true 使用 class1 类的样式，否则不使用该类：
@@ -332,7 +337,7 @@ var router=new VueRouter({
   routes:[
     {path:'/account',compoment:account},
     {path:'/goodlist',compoment:goodlist}
-    })
+  ]})
 var vm =Vue({
   el:"#app",
   render:c=>c(app),
@@ -378,4 +383,15 @@ var vm= new Vue({
   router,
   render: c=>c(app)
 })
+
+```
+## 页面内子页面跳转：
+需要设定子路由：
+```js
+var routes=[{
+  pages:'/123',
+  components:123,
+  children:[{
+    pages:'234',components:234}]}]
+//这样就可以实现页面内跳转，linkto的时候要写上123/234才行
 ```

@@ -71,9 +71,9 @@ from pyflink.table import StreamTableEnvironment, TableConfig, DataTypes, CsvTab
 
 
 s_env = StreamExecutionEnvironment.get_execution_environment()
-s_env.set_parallelism(1)
+s_env.set_parallelism(4)
 # 必须开启checkpoint，时间间隔为毫秒，否则不能输出数据
-s_env.enable_checkpointing(3000)
+s_env.enable_checkpointing(60000)
 
 st_env = StreamTableEnvironment.create(s_env, TableConfig())
 st_env.use_catalog("default_catalog")
@@ -84,8 +84,8 @@ sourceKafkaDdl = """
  behavior STRING
 ) WITH (
  'connector' = 'kafka',
- 'topic' = 'voltecapsdata',
- 'properties.bootstrap.servers' = '10.1.62.158:9092',
+ 'topic' = 'jyupay_hb_5',
+ 'properties.bootstrap.servers' = '10.1.95.136:9092',
  'format' = 'json',
  'scan.startup.mode' = 'earliest-offset'
 )
@@ -106,3 +106,39 @@ st_env.execute("pyflink-kafka-v2")
 在flink的bin文件下：
 `./flink run -m localhost:8081 -py /home/test/test.py`即可添加任务。
 
+## 5.udf的使用：
+目前我们需要在python使用一些函数来对数据做一些处理，一般的函数是没办法使用的，所以我们需要使用udf来对table进行操作。
+```python
+from pyflink.table import udf
+
+#在pycharm中使用，因为使用了自定义的python函数，所以需要将内存增加到80m，实际上在集群中需要修改config文件
+st_env.get_config().get_configuration().set_string("taskmanager.memory.task.off-heap.size","100m")
+
+#如果放到线上的机器，需要安装requirements.txt
+st_env.get_config().set_python_executable("python3")
+st_env.set_python_requirements("/home/ssd/requirements.txt")
+
+
+@udf(input_types=[DataTypes.STRING()],
+           result_type=DataTypes.ARRAY(DataTypes.STRING()))
+  def split(line):
+       return line.split(",")
+....
+#注册该函数：
+st_env.register_function("py_split", py_split)
+#后面的table就可以使用了
+sink_sql_str="select py_split(start_time,0) as message_time,py_split(start_time,1) as message_instance from kafkaTable"
+st_env.sql_query(sink_sql_str)
+st_env.insert_into('test_table')
+st_env.execute('文件名')
+```
+
+## 6.新建source和sink
+有的时候有些数据库以及接口，在官方是不支持的，所以需要新建source和sink。
+```python
+class ChartConnector(CustomConnectorDescriptor):
+    def __init__(self):
+        res=requests.get('http://10.1.60.30:8010/api/v1/metricnames')
+        print(res)
+
+```

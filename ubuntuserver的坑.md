@@ -161,3 +161,6 @@ network:
 安装ftp服务器：`sudo apt-get install vsftpd`
 设置目录与用户权限`sudo useradd -d /home/ftp -s /bin/bash ftpname`
 其中ftpname为用户名，为新建用户设置密码：`passwd ftpname`
+# 查询端口占用
+`netstat -ap | grep 8080`
+`lsof -i`
