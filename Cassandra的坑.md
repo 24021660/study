@@ -100,3 +100,13 @@ COPY mydb.user from '/usr/usr.scv';
 CREATE ROLE busuanzi WITH SUPERUSER = true AND LOGIN = true AND PASSWORD = 'busuanzi.org';
 
 ALTER ROLE cassandra WITH SUPERUSER = false AND LOGIN = false;
+## 7.优化
+cassandra的优化比较重要：
+concurrent_reads:32
+concurrent_write:32
+concurrent_conter_writes:32
+一般为8*core=32
+#使用Memory Mapped File IO，性能超过Standard IO，64位
+disk_access_mode: mmap
+MAX_HEAP_SIZE：
+HEAP_NEWSIZE
