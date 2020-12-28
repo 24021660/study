@@ -48,3 +48,5 @@ pip install --no-index --find-links=savetest\whls -r packages.txt
 #pip内存不足：
 pip --no-cache-dir install xx
 ```
+## 4.fbprophet安装的坑
+主要是gcc

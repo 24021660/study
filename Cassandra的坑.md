@@ -86,7 +86,7 @@ vectorized version:116.4514513015747s  #插入116万条数据，用时116秒
 ## 5.导入导出表结构
 ```sh
 ##导出
-./cqlsh 127.0.0.1 -e 'desc keyspace keyspace_name' -u user -p pwd > db.cql
+./cqlsh 127.0.0.1 -e 'desc keyspace keyspace_name' -u user -p pwd > db.csv
 ##导入
 ./cqlsh 192.168.198.51 -u cassandra -p cassandra  -f db.cql
 ```
@@ -110,3 +110,5 @@ concurrent_conter_writes:32
 disk_access_mode: mmap
 MAX_HEAP_SIZE：
 HEAP_NEWSIZE
+## 新建用户
+dede

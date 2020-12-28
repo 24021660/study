@@ -2,6 +2,7 @@
 目前使用npm安装比较好
 前提先安装cnpm
 安装完node与cnpm之后运行下面代码：
+
 ```sh
 # 全局安装 vue-cli
 $ cnpm install --global vue-cli
