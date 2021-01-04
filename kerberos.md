@@ -77,7 +77,7 @@ export KAFKA_OPTS="-Djava.security.auth.login.config=/etc/kafka-jass.conf -Djava
 
 
 1、jaas.conf文件配置：
-```conf
+​```conf
 KafkaServer {
 com.sun.security.auth.module.Krb5LoginModule required
 useKeyTab=true
@@ -236,3 +236,10 @@ export KAFKA_OPTS="-Djava.security.krb5.conf=/etc/krb5.conf -Djava.security.auth
 ```
 /app/aiops/kafka/kafka_2.11-2.3.0/bin/kafka-console-consumer.sh --whitelist 'jyupay_hb_5|jyupay_hb_info'  --consumer.config=../kafka/kafka_2.11-2.3.0/config/consumer.properties --bootstrap-server=10.252.217.129:6667
 ```
+
+python安装:
+
+```shell
+yum install python-gssapi
+```
+

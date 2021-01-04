@@ -17,7 +17,7 @@
 可以在使用pip的时候加参数-i https://pypi.tuna.tsinghua.edu.cn/simple
 
 例如：pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider，这样就会从清华这边的镜像去安装pyspider库。
- 
+
 永久修改，一劳永逸：
 Linux下，修改 ~/.pip/pip.conf (没有就创建一个文件夹及文件。文件夹要加“.”，表示是隐藏文件夹)
 
@@ -50,3 +50,4 @@ pip --no-cache-dir install xx
 ```
 ## 4.fbprophet安装的坑
 主要是gcc
+
